@@ -17,7 +17,8 @@ public class GameDualActivity extends AppCompatActivity {
     private String leftAction;
     private String rightAction;
 
-    private static final int MIN_DISTANCE = 150;
+    private static final int RIGHT_SWIPE = 150;
+    private static final int LEFT_SWIPE = -150;
     private int currScore;
     private float Lx1, Lx2, Rx1, Rx2;
 
@@ -57,13 +58,14 @@ public class GameDualActivity extends AppCompatActivity {
                     case (MotionEvent.ACTION_UP) :
                         Lx2 = event.getX();
                         float deltaX = Lx2 - Lx1;
-                        if (Math.abs (deltaX) > MIN_DISTANCE) {
-                            currAction = "swipe";
-                            Log.d("ACTION", "Swipe");
+                        if (deltaX > RIGHT_SWIPE) {
+                            currAction = "right swipe";
+                        }
+                        else if (deltaX < LEFT_SWIPE){
+                            currAction = "left swipe";
                         }
                         else {
                             currAction = "press";
-                            Log.d("ACTION", "Press");
                         }
                         break;
                     default:
@@ -94,13 +96,14 @@ public class GameDualActivity extends AppCompatActivity {
                     case (MotionEvent.ACTION_UP) :
                         Rx2 = event.getX();
                         float deltaX = Rx2 - Rx1;
-                        if (Math.abs (deltaX) > MIN_DISTANCE) {
-                            currAction = "swipe";
-                            Log.d("ACTION", "Swipe");
+                        if (deltaX > RIGHT_SWIPE) {
+                            currAction = "right swipe";
+                        }
+                        else if (deltaX < LEFT_SWIPE){
+                            currAction = "left swipe";
                         }
                         else {
                             currAction = "press";
-                            Log.d("ACTION", "Press");
                         }
                     default:
                         break;
