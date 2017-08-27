@@ -34,7 +34,9 @@ public class GameDualActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game_dual_buttons);
 
         LBtn = (Button) findViewById(R.id.left_btn_2mode);
+        LBtn.setBackground(getDrawable( R.mipmap.button_icon) );
         RBtn = (Button) findViewById(R.id.right_btn_2mode);
+        RBtn.setBackground(getDrawable( R.mipmap.button_icon) );
         Score = (TextView) findViewById(R.id.editText);
         currScore = 0;
         initButtons();
@@ -73,10 +75,17 @@ public class GameDualActivity extends AppCompatActivity {
                 }
                 /*Upon successful press, increase score and randomize next instruction*/
                 if (currAction.equals(leftAction)) {
-                    currScore += 100;
+                    currScore += 100000;
                     Score.setText(String.valueOf(currScore));
                     leftAction = randAction();
                     LBtn.setText(leftAction);
+                    if (leftAction.equals("press"))
+                        LBtn.setBackground(getDrawable( R.mipmap.button_icon) );
+                    else if (leftAction.equals("left swipe"))
+                        LBtn.setBackground(getDrawable( R.mipmap.l_swipe) );
+                    else if (leftAction.equals("right swipe"))
+                        LBtn.setBackground(getDrawable( R.mipmap.r_swipe) );
+
                 }
                 else Log.d("FAIL", "/Attempt " + currAction + " Actual: " + leftAction);
                 return true;
@@ -109,7 +118,7 @@ public class GameDualActivity extends AppCompatActivity {
                         break;
                 }
                 if (currAction.equals(rightAction)){
-                    currScore += 100;
+                    currScore += 100000;
                     Score.setText(String.valueOf(currScore));
                     rightAction = randAction();
                     RBtn.setText(rightAction);
