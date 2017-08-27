@@ -1,5 +1,6 @@
 package ralvarez519.swiper;
 
+import android.os.CountDownTimer;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,16 +17,19 @@ public class GameDualActivity extends AppCompatActivity {
 
     private String leftAction;
     private String rightAction;
+    private boolean timeOver;
 
     private static final int RIGHT_SWIPE = 150;
     private static final int LEFT_SWIPE = -150;
     private int currScore;
+    public int counter ;
     private float Lx1, Lx2, Rx1, Rx2;
 
 
     private Button LBtn;
     private Button RBtn;
     private TextView Score;
+    private TextView Timer;
 
 
     @Override
@@ -37,8 +41,22 @@ public class GameDualActivity extends AppCompatActivity {
         LBtn.setBackground(getDrawable( R.mipmap.button_icon) );
         RBtn = (Button) findViewById(R.id.right_btn_2mode);
         RBtn.setBackground(getDrawable( R.mipmap.button_icon) );
-        Score = (TextView) findViewById(R.id.editText);
+        Score = (TextView) findViewById(R.id.score_dualmode);
+        Timer = (TextView) findViewById(R.id.timer_dualmode);
         currScore = 0;
+        timeOver = false;
+
+        new CountDownTimer(30000, 1000){
+            public void onTick(long millisUntilFinished){
+                Timer.setText(String.valueOf(30 - counter));
+                counter++;
+            }
+            public  void onFinish(){
+                timeOver = true;
+                Timer.setText("FINISH!!");
+            }
+        }.start();
+
         initButtons();
     }
 
@@ -50,6 +68,7 @@ public class GameDualActivity extends AppCompatActivity {
         LBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                if (timeOver) return false;
                 int action = MotionEventCompat.getActionMasked(event);
                 String currAction = "none";
 
@@ -95,6 +114,7 @@ public class GameDualActivity extends AppCompatActivity {
         RBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                if (timeOver) return false;
                 int action = MotionEventCompat.getActionMasked(event);
                 String currAction = "none";
 
@@ -122,6 +142,13 @@ public class GameDualActivity extends AppCompatActivity {
                     Score.setText(String.valueOf(currScore));
                     rightAction = randAction();
                     RBtn.setText(rightAction);
+                    if (rightAction.equals("press"))
+                        RBtn.setBackground(getDrawable( R.mipmap.button_icon) );
+                    else if (rightAction.equals("left swipe"))
+                        RBtn.setBackground(getDrawable( R.mipmap.l_swipe) );
+                    else if (rightAction.equals("right swipe"))
+                        RBtn.setBackground(getDrawable( R.mipmap.r_swipe) );
+
                 }
                 return true;
             }
